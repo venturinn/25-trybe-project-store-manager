@@ -10,13 +10,14 @@
     "start": "node index.js",
     "debug": "nodemon --ignore coverage index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
-    "restore": "node ./test/restoreDb.js"
+    "restore": "node ./test/restoreDb.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tryber/sd-02-project-store-manager.git"
   },
-  "author": "",
+  "author": "","dev": "nodemon index.js",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tryber/sd-02-project-store-manager/issues"
