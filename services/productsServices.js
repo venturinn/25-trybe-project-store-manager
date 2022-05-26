@@ -21,7 +21,25 @@ const getAllProducts = async () => {
     return productById;
   };
 
+  const addNewProduct = async (name, quantity) => {
+    const existingProductName = await productsModels.findProductByName(name);
+
+    if (existingProductName) {
+        return {
+          error: {
+            code: 'alreadyExists',
+            message: 'Product already exists',
+          },
+        };
+      }
+  
+    const newProductId = await productsModels.addNewProduct(name, quantity);
+
+    return ({ id: newProductId, name, quantity });
+  };
+
   module.exports = {
     getAllProducts,
     findProductById,
+    addNewProduct,
   };

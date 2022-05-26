@@ -1,7 +1,10 @@
 const rescue = require('express-rescue'); 
+const bodyParser = require('body-parser');
 
 const app = require('./app');
 require('dotenv').config();
+
+app.use(bodyParser.json());
 
 const productsControllers = require('./controllers/productsControllers');
 const salesControllers = require('./controllers/salesControllers');
@@ -13,6 +16,8 @@ app.get('/products/:id', rescue(productsControllers.findProductById));
 
 app.get('/sales', rescue(salesControllers.getAllSales));
 app.get('/sales/:id', rescue(salesControllers.findSaleById));
+
+app.post('/products', rescue(productsControllers.addNewProduct));
 
 app.use(errorMiddleware);
 
