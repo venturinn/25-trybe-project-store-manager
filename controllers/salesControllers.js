@@ -15,7 +15,17 @@ const findSaleById = async (req, res, next) => {
   res.status(200).json(saleById);
 };
 
+const addNewSale = async (req, res, next) => {
+    const saleData = req.body;
+    const newSale = await salesServices.addNewSale(saleData);
+  
+    if (newSale.error) return next(newSale.error);
+  
+    res.status(201).json(newSale);
+  };
+
 module.exports = {
   getAllSales,
   findSaleById,
+  addNewSale,
 };

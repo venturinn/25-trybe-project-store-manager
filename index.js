@@ -22,6 +22,8 @@ app.post('/products', rescue(productsControllers.addNewProduct));
 app.put('/products/:id', rescue(productsControllers.updateProduct));
 app.delete('/products/:id', rescue(productsControllers.deleteProduct));
 
+app.post('/sales', rescue(salesControllers.addNewSale));
+
 app.use(errorMiddleware);
 
 // não altere esse arquivo, essa estrutura é necessária para à avaliação do projeto

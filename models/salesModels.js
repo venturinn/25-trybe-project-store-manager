@@ -32,7 +32,22 @@ const findSaleById = async (id) => {
   return serialize(saleById);
 };
 
+const addNewSale = async () => {
+    const query = `
+      INSERT 
+      INTO StoreManager.sales
+      (date) VALUES (NOW())`;
+  
+    // Querys utilizadas para que as compras sejam adicionadas em horário local:
+    await connection.execute('SET time_zone="America/Sao_Paulo";');
+    await connection.execute('SELECT @@time_zone;');
+
+    const [newSale] = await connection.execute(query);
+    return newSale.insertId;
+  };
+
 module.exports = {
   getAllSales,
   findSaleById,
+  addNewSale,
 };
