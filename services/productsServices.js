@@ -16,7 +16,7 @@ const getAllProducts = async () => {
             message: 'Product not found',
           },
         };
-      }
+    }
   
     return productById;
   };
@@ -31,7 +31,7 @@ const getAllProducts = async () => {
             message: 'Product already exists',
           },
         };
-      }
+    }
   
     const newProductId = await productsModels.addNewProduct(name, quantity);
 
@@ -39,17 +39,33 @@ const getAllProducts = async () => {
   };
 
   const updateProduct = async (id, name, quantity) => {
-    const productById = await productsModels.findProductById(id);
-    if (!productById) {
+    const existingProductId = await productsModels.findProductById(id);
+    if (!existingProductId) {
         return {
           error: {
             code: 'notFound',
             message: 'Product not found',
-          } }; 
-}
+          }, 
+        }; 
+    }
     await productsModels.updateProduct(id, name, quantity);
 
     return ({ id, name, quantity });
+  };
+
+  const deleteProduct = async (id) => {
+    const existingProductId = await productsModels.findProductById(id);
+    if (!existingProductId) {
+        return {
+          error: {
+            code: 'notFound',
+            message: 'Product not found',
+          }, 
+        }; 
+    }
+
+    await productsModels.deleteProduct(id);
+    return ({ deleted: id });
   };
 
   module.exports = {
@@ -57,4 +73,5 @@ const getAllProducts = async () => {
     findProductById,
     addNewProduct,
     updateProduct,
+    deleteProduct,
   };

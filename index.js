@@ -20,6 +20,7 @@ app.get('/sales/:id', rescue(salesControllers.findSaleById));
 app.post('/products', rescue(productsControllers.addNewProduct));
 
 app.put('/products/:id', rescue(productsControllers.updateProduct));
+app.delete('/products/:id', rescue(productsControllers.deleteProduct));
 
 app.use(errorMiddleware);
 
