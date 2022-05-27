@@ -68,10 +68,15 @@ const getAllProducts = async () => {
     return ({ deleted: id });
   };
 
+  const updateProductQuantity = async (id, quantity) => {
+    await productsModels.updateProductQuantity(id, quantity);
+  };
+
   module.exports = {
     getAllProducts,
     findProductById,
     addNewProduct,
     updateProduct,
     deleteProduct,
+    updateProductQuantity,
   };
