@@ -16,33 +16,38 @@ const findProductById = async (req, res, next) => {
 };
 
 const addNewProduct = async (req, res, next) => {
-    const { name, quantity } = req.body;
-      
-    const newProduct = await productsServices.addNewProduct(name, quantity);
+  const { name, quantity } = req.body;
 
-    if (newProduct.error) return next(newProduct.error);
+  const newProduct = await productsServices.addNewProduct(name, quantity);
 
-    res.status(201).json(newProduct);
-  };
+  if (newProduct.error) return next(newProduct.error);
 
-  const updateProduct = async (req, res, next) => {
-    const { name, quantity } = req.body;
-    const { id } = req.params;
-    const updatedProduct = await productsServices.updateProduct(id, name, quantity);
+  res.status(201).json(newProduct);
+};
 
-    if (updatedProduct.error) return next(updatedProduct.error);
+const updateProduct = async (req, res, next) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+  
+  const updatedProduct = await productsServices.updateProduct(
+    id,
+    name,
+    quantity,
+  );
 
-    res.status(200).json(updatedProduct);
-  };
+  if (updatedProduct.error) return next(updatedProduct.error);
 
-  const deleteProduct = async (req, res, next) => {
-    const { id } = req.params;
-    const deletedProduct = await productsServices.deleteProduct(id);
+  res.status(200).json(updatedProduct);
+};
 
-    if (deletedProduct.error) return next(deletedProduct.error);
+const deleteProduct = async (req, res, next) => {
+  const { id } = req.params;
+  const deletedProduct = await productsServices.deleteProduct(id);
 
-    res.status(204).json();
-  };
+  if (deletedProduct.error) return next(deletedProduct.error);
+
+  res.status(204).json();
+};
 
 module.exports = {
   getAllProducts,

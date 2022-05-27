@@ -1,4 +1,3 @@
-const Joi = require('joi');
 const salesServices = require('../services/salesServices');
 
 const getAllSales = async (_req, res) => {
@@ -18,6 +17,7 @@ const findSaleById = async (req, res, next) => {
 
 const addNewSale = async (req, res, next) => {
   const saleData = req.body;
+  
   const newSale = await salesServices.addNewSale(saleData);
 
   if (newSale.error) return next(newSale.error);
@@ -28,17 +28,6 @@ const addNewSale = async (req, res, next) => {
 const updateSale = async (req, res, next) => {
   const saleData = req.body;
   const { id } = req.params;
-
-  saleData.forEach((product) => {
-    const { quantity } = product;
-    const { error } = Joi.object({
-        quantity: Joi.number().integer().min(1).required(),
-    }).validate({ quantity });
-
-    if (error) {
-      return next(error);
-    }
-  });
 
   const updatedSale = await salesServices.updateSale(id, saleData);
 
