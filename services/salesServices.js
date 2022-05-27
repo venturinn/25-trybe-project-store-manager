@@ -23,11 +23,18 @@ const findSaleById = async (id) => {
   return saleById;
 };
 
-const updateProductQuantity = (saleData) => {
+const updateProductQuantity = (saleData, sumOrSub) => {
   saleData.forEach(async (product) => {
     const { productId, quantity } = product;
+    let newQuantity = 0;
     const productStore = await productsServices.findProductById(productId);
-    const newQuantity = productStore.quantity - quantity;
+
+    if (sumOrSub === 'sum') {
+        newQuantity = productStore.quantity + quantity;
+    } else {
+        newQuantity = productStore.quantity - quantity;
+    }
+
     productsServices.updateProductQuantity(productId, newQuantity);
   });
 };
@@ -50,7 +57,7 @@ const verifyProductQuantity = async (saleData) => {
 const addNewSale = async (saleData) => {
   const verifyQuantity = await verifyProductQuantity(saleData);
   if (verifyQuantity === true) {
-    updateProductQuantity(saleData);
+    updateProductQuantity(saleData, 'sub');
   } else {
     return { error: { code: 'UnprocessableEntity',
         message: 'Such amount is not permitted to sell',
@@ -77,12 +84,20 @@ const updateSale = async (id, saleData) => {
     return { error: { code: 'notFound', message: 'Sale not found' } };
   }
 
+  const verifyQuantity = await verifyProductQuantity(saleData);
+  if (verifyQuantity === true) {
+    updateProductQuantity(saleData);
+  } else {
+    return { error: { code: 'UnprocessableEntity',
+        message: 'Such amount is not permitted to sell',
+      },
+    };
+  }
+
   await salesProductsModels.deleteSale(id);
 
-  await Promise.all(
-    saleData.map((product) =>
-      salesProductsModels.addNewSale(id, product.productId, product.quantity)),
-  );
+  await Promise.all(saleData.map((product) =>
+      salesProductsModels.addNewSale(id, product.productId, product.quantity)));
 
   return { saleId: id, itemUpdated: saleData };
 };
@@ -97,6 +112,8 @@ const deleteSale = async (id) => {
       },
     };
   }
+  const saleData = await salesProductsModels.getSaleProductsData(id);
+  updateProductQuantity(saleData, 'sum');
 
   await salesProductsModels.deleteSale(id);
   await salesModels.deleteSale(id);
