@@ -22,6 +22,7 @@ app.get('/sales', rescue(salesControllers.getAllSales));
 app.get('/sales/:id', rescue(salesControllers.findSaleById));
 app.post('/sales', salesValidate, rescue(salesControllers.addNewSale));
 app.put('/sales/:id', salesValidate, rescue(salesControllers.updateSale));
+app.delete('/sales/:id', rescue(salesControllers.deleteSale));
 
 app.use(errorMiddleware);
 
