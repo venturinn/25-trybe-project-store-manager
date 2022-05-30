@@ -5,13 +5,7 @@ const salesModels = require("../../../models/salesModels");
 
 // A função "deleteSale" não possui retorno e não foi testada"
 
-// module.exports = {
-//     getAllSales, //////////////////////////////////////
-//     findSaleById, ///////////////////////////////
-//     addNewSale,
-//   };
-
-describe("Busca todas as vendas cadastrados no BD", () => {
+describe("Model: busca todas as vendas cadastrados no BD", () => {
   describe("Quando não existe nenhuma venda criada", () => {
     before(async () => {
       const res = [[]];
@@ -101,76 +95,79 @@ describe("Busca todas as vendas cadastrados no BD", () => {
   });
 });
 
-describe("Busca uma venda por meio do 'id'", () => {
-    describe("Quando o 'id' buscado existe", () => {
-      before(async () => {
-        const res = [[
-              {
-                sale_id: 1,
-                date: "2022-05-30T18:23:59.000Z",
-                product_id: 1,
-                quantity: 5,
-              }
-          ]];
-  
-        sinon.stub(connection, "execute").resolves(res);
-      });
-  
-      after(async () => {
-        connection.execute.restore();
-      });
-  
-      it("Retorna um array", async () => {
-        const response = await salesModels.findSaleById(1);
-        expect(response).to.be.an("array");
-      });
-      it("O array retornado não está vazio", async () => {
-        const response = await salesModels.findSaleById(1);
-        expect(response).to.be.not.empty;
-      });
-      it('O array retornado possui um objeto com as propriedades: "saleId", "date", "productId" e "quantity"', async () => {
-        const response = await salesModels.findSaleById(1);
-        expect(response[0]).to.include.all.keys(
-        "saleId",
-        "date",
-        "productId",
-        "quantity");
-      });
-    });
-  
-    describe("Quando o 'id' buscado não existe", () => {
-      before(async () => {
-        const res = [[]];
-  
-        sinon.stub(connection, "execute").resolves(res);
-      });
-  
-      after(async () => {
-        connection.execute.restore();
-      });
-  
-      it("Retorna 'null'", async () => {
-        const response = await salesModels.findSaleById(1000);
-        expect(response).to.be.an("null");
-      });
-    });
-  });
-
-  describe("Insere uma nova venda no BD", () => {
+describe("Model: busca uma venda por meio do 'id'", () => {
+  describe("Quando o 'id' buscado existe", () => {
     before(async () => {
-      const res = [{ insertId: 1 }];
-  
+      const res = [
+        [
+          {
+            sale_id: 1,
+            date: "2022-05-30T18:23:59.000Z",
+            product_id: 1,
+            quantity: 5,
+          },
+        ],
+      ];
+
       sinon.stub(connection, "execute").resolves(res);
     });
-  
+
     after(async () => {
       connection.execute.restore();
     });
-  
-    describe("Quando é inserido com sucesso", () => {
-      it('Retorna o "id" da nova venda inserida', async () => {
-        const response = await salesModels.addNewSale();
-        expect(response).to.equal(1);
-      });
+
+    it("Retorna um array", async () => {
+      const response = await salesModels.findSaleById(1);
+      expect(response).to.be.an("array");
+    });
+    it("O array retornado não está vazio", async () => {
+      const response = await salesModels.findSaleById(1);
+      expect(response).to.be.not.empty;
+    });
+    it('O array retornado possui um objeto com as propriedades: "saleId", "date", "productId" e "quantity"', async () => {
+      const response = await salesModels.findSaleById(1);
+      expect(response[0]).to.include.all.keys(
+        "saleId",
+        "date",
+        "productId",
+        "quantity"
+      );
     });
   });
+
+  describe("Quando o 'id' buscado não existe", () => {
+    before(async () => {
+      const res = [[]];
+
+      sinon.stub(connection, "execute").resolves(res);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it("Retorna 'null'", async () => {
+      const response = await salesModels.findSaleById(1000);
+      expect(response).to.be.an("null");
+    });
+  });
+});
+
+describe("Model: insere uma nova venda no BD", () => {
+  before(async () => {
+    const res = [{ insertId: 1 }];
+
+    sinon.stub(connection, "execute").resolves(res);
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  describe("Quando é inserido com sucesso", () => {
+    it('Retorna o "id" da nova venda inserida', async () => {
+      const response = await salesModels.addNewSale();
+      expect(response).to.equal(1);
+    });
+  });
+});

@@ -5,7 +5,7 @@ const productsModels = require("../../../models/productsModels");
 
 // Funções "updateProduct", "deleteProduct" e "updateProductQuantity não possuem retorno e não foram testadas"
 
-describe("Busca todos os produtos cadastrados no BD", () => {
+describe("Model: busca todos os produtos cadastrados no BD", () => {
   describe("Quando não existe nenhum produto criado", () => {
     before(async () => {
       const res = [[]];
@@ -63,7 +63,7 @@ describe("Busca todos os produtos cadastrados no BD", () => {
   });
 });
 
-describe("Busca um produto por meio do 'id'", () => {
+describe("Model: busca um produto por meio do 'id'", () => {
   describe("Quando o 'id' buscado existe", () => {
     before(async () => {
       const res = [[{ id: 2, name: "Traje de encolhimento", quantity: 20 }]];
@@ -107,7 +107,7 @@ describe("Busca um produto por meio do 'id'", () => {
   });
 });
 
-describe("Insere um novo produto no BD", () => {
+describe("Model: insere um novo produto no BD", () => {
   before(async () => {
     const res = [{ insertId: 1 }];
 
@@ -126,7 +126,7 @@ describe("Insere um novo produto no BD", () => {
   });
 });
 
-describe("Busca um produto por meio do 'name'", () => {
+describe("Model: busca um produto por meio do 'name'", () => {
   describe("Quando o 'name' buscado existe", () => {
     before(async () => {
       const res = [[{ id: 2, name: "Traje de encolhimento", quantity: 20 }]];
