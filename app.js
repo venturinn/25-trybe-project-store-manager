@@ -14,12 +14,14 @@ app.use(bodyParser.json());
 
 app.get('/products', rescue(productsControllers.getAllProducts));
 app.get('/products/:id', rescue(productsControllers.findProductById));
+
 app.post('/products', productsValidate, rescue(productsControllers.addNewProduct));
 app.put('/products/:id', productsValidate, rescue(productsControllers.updateProduct));
 app.delete('/products/:id', rescue(productsControllers.deleteProduct));
 
 app.get('/sales', rescue(salesControllers.getAllSales));
 app.get('/sales/:id', rescue(salesControllers.findSaleById));
+
 app.post('/sales', salesValidate, rescue(salesControllers.addNewSale));
 app.put('/sales/:id', salesValidate, rescue(salesControllers.updateSale));
 app.delete('/sales/:id', rescue(salesControllers.deleteSale));
