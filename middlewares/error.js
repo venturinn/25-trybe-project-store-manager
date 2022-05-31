@@ -3,7 +3,7 @@ const getStatusCode = (type) => {
   if (type === 'number.min' || type === 'string.min') return 422;
 };
 
-module.exports = (err, req, res, _next) => {
+module.exports = (err, _req, res, _next) => {
   if (err.isJoi) {
     const { type } = err.details[0];
     const statusCode = getStatusCode(type);

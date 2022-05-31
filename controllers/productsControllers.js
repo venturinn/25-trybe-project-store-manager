@@ -10,8 +10,7 @@ const findProductById = async (req, res, next) => {
   const { id } = req.params;
   const productById = await productsServices.findProductById(id);
 
-  if (productById.error) return next(productById.error);
-
+  if (productById.error) return next(productById.error, null, res);
   res.status(200).json(productById);
 };
 
@@ -20,7 +19,7 @@ const addNewProduct = async (req, res, next) => {
 
   const newProduct = await productsServices.addNewProduct(name, quantity);
 
-  if (newProduct.error) return next(newProduct.error);
+  if (newProduct.error) return next(newProduct.error, null, res);
 
   res.status(201).json(newProduct);
 };
@@ -35,7 +34,7 @@ const updateProduct = async (req, res, next) => {
     quantity,
   );
 
-  if (updatedProduct.error) return next(updatedProduct.error);
+  if (updatedProduct.error) return next(updatedProduct.error, null, res);
 
   res.status(200).json(updatedProduct);
 };
@@ -44,7 +43,7 @@ const deleteProduct = async (req, res, next) => {
   const { id } = req.params;
   const deletedProduct = await productsServices.deleteProduct(id);
 
-  if (deletedProduct.error) return next(deletedProduct.error);
+  if (deletedProduct.error) return next(deletedProduct.error, null, res);
 
   res.status(204).json();
 };
